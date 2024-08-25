@@ -1,13 +1,13 @@
 import os
 import shlex
 import subprocess
-from typing import Union
+from typing import Union, Optional
 
 from android_controller.device import Device
 
 
 class Controller:
-    def __init__(self, adb_path: str, scrcpy_path: str = None):
+    def __init__(self, adb_path: str, scrcpy_path: str = None) -> None:
         """
             Initializes the Controller with the specified adb and optionally scrcpy paths.
 
@@ -39,7 +39,7 @@ class Controller:
         else:
             print("Scrcpy path not provided, streaming will be unavailable.")
 
-    def screenshot(self, path: str):
+    def screenshot(self, path: str) -> Optional[str]:
         """
             Takes a screenshot of the Android device screen and saves it to the specified output path.
 
@@ -190,7 +190,7 @@ class Controller:
             print(f"Error executing command \"{' '.join(command)}\": {e.stderr.strip()}")
             return ""
 
-    def getDevice(self):
+    def getDevice(self) -> Device:
         """
             Retrieves the device information including name, screen width, and height.
 
