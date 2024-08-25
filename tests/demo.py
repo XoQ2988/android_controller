@@ -3,8 +3,8 @@ from time import sleep as wait
 
 from android_controller import Controller
 
-adb = os.path.join(os.getcwd(), "assets", "adb.exe")
-scrcpy = os.path.join(os.getcwd(), "assets", "scrcpy.exe")
+adb = os.path.join(os.path.abspath('.'), "assets", "adb.exe")
+scrcpy = os.path.join(os.path.abspath('.'), "assets", "scrcpy.exe")
 
 controller = Controller(adb)
 device = controller.getDevice()

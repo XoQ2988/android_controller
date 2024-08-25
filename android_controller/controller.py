@@ -100,17 +100,46 @@ class Controller:
         except subprocess.CalledProcessError as e:
             print(f"Error typing text on the device: {e}")
 
-    def stream(self):
-        subprocess.run([
-            self.scrcpy_path,
-            #"--max-fps=30",
-            "--no-audio",
-            "--disable-screensaver",
-            "--always-on-top"
+    def stream(self, max_fps: int = 30, bit_rate: str = "8M",
+               rotate: bool = False, always_on_top: bool = True, disable_screensaver: bool = True,
+               no_audio: bool = True) -> None:
+        """
+            Streams the Android device screen to the computer using scrcpy with customizable options.
 
-        ])
+        Args:
+            max_fps (int, optional): The maximum frame rate to stream at. Default is 30 fps.
+            bit_rate (str, optional): The bit rate of the video stream. Default is '8M' (8Mbps).
+            rotate (bool, optional): Whether to rotate the device screen. Default is False.
+            always_on_top (bool, optional): Whether the streaming window should always be on top. Default is True.
+            disable_screensaver (bool, optional): Whether to disable the screensaver while streaming. Default is True.
+            no_audio (bool, optional): Whether to disable audio in the stream. Default is True.
+        """
+        # Prepare the scrcpy command base
+        cmd = [self.scrcpy_path]
 
-    def shell(self, command: list[str], debug: bool = False) -> str:
+        # Options to append based on the parameters provided
+        options = [
+            ("--max-fps", str(max_fps)) if max_fps else None,
+            ("--video-bit-rate", bit_rate) if bit_rate else None,
+            ("--audio-bit-rate", bit_rate) if bit_rate else None,
+            "--rotate" if rotate else None,
+            "--always-on-top" if always_on_top else None,
+            "--disable-screensaver" if disable_screensaver else None,
+            "--no-audio" if no_audio else None
+        ]
+
+        # Filter out None values and flatten the list
+        cmd += [item for sublist in options if sublist for item in
+                (sublist if isinstance(sublist, tuple) else (sublist,))]
+
+        try:
+            # Run the scrcpy command
+            subprocess.run(cmd, check=True)
+            print(f"Streaming started with options: {cmd[1:]}")
+        except subprocess.CalledProcessError as e:
+            print(f"Error starting stream: {e}")
+
+    def shell(self, command: list[str], debug: bool = True) -> str:
         """
         Executes a shell command and returns the output as a string.
 
