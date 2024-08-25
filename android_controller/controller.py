@@ -1,3 +1,4 @@
+import os
 import shlex
 import subprocess
 from typing import Union
@@ -6,9 +7,37 @@ from android_controller.device import Device
 
 
 class Controller:
-    def __init__(self, adb_path):
+    def __init__(self, adb_path: str, scrcpy_path: str = None):
+        """
+            Initializes the Controller with the specified adb and optionally scrcpy paths.
+
+        Args:
+            adb_path (str): The path to the adb executable.
+            scrcpy_path (str, optional): The path to the scrcpy executable. Default is None.
+
+        Raises:
+            ValueError: If the adb or scrcpy paths are invalid.
+        """
+        # Check if the adb path is valid
+        if not adb_path or not os.path.isfile(adb_path):
+            raise ValueError(f"Invalid adb path: {adb_path}. Please provide a valid adb executable path.")
+
         self.adb_path = adb_path
-        self.scrcpy_path = None
+
+        # Check if the scrcpy path is provided and valid
+        if scrcpy_path:
+            if not os.path.isfile(scrcpy_path):
+                raise ValueError(f"Invalid scrcpy path: {scrcpy_path}. Please provide a valid scrcpy executable path.")
+            self.scrcpy_path = scrcpy_path
+        else:
+            # scrcpy is optional, set to None if not provided
+            self.scrcpy_path = None
+
+        print(f"Controller initialized with adb path: {self.adb_path}")
+        if self.scrcpy_path:
+            print(f"Controller initialized with scrcpy path: {self.scrcpy_path}")
+        else:
+            print("Scrcpy path not provided, streaming will be unavailable.")
 
     def screenshot(self, path: str):
         """
@@ -82,7 +111,7 @@ class Controller:
 
     def type_text(self, text: str) -> None:
         """
-        Types the given text on the device screen.
+            Types the given text on the device screen.
 
         Args:
             text (str): The text to be typed on the device.
@@ -141,7 +170,7 @@ class Controller:
 
     def shell(self, command: list[str], debug: bool = True) -> str:
         """
-        Executes a shell command and returns the output as a string.
+            Executes a shell command and returns the output as a string.
 
         Args:
             :param command: The command to execute as a list of strings.
@@ -203,18 +232,5 @@ class Controller:
                     print(f"Error parsing screen density: {line}")
                     screen_density = 0
 
-        return Device(
-            name=device_name,
-            width=width,
-            height=height,
-            android_version=android_version,
-            sdk_version=sdk_version,
-            model=model,
-            manufacturer=manufacturer,
-            build_id=build_id,
-            cpu_abi=cpu_abi,
-            screen_density=screen_density,
-            serial_number=serial_number,
-            imei=imei,
-            network_operator=network_operator
-        )
+        return Device(device_name, width, height, android_version, sdk_version, model, manufacturer, build_id,
+                      cpu_abi, screen_density, serial_number, imei, network_operator)

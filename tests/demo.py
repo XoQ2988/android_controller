@@ -6,7 +6,7 @@ from android_controller import Controller
 adb = os.path.join(os.path.abspath('.'), "assets", "adb.exe")
 scrcpy = os.path.join(os.path.abspath('.'), "assets", "scrcpy.exe")
 
-controller = Controller(adb)
+controller = Controller(adb, scrcpy)
 device = controller.getDevice()
 
 # Retrieve and display device information
@@ -27,5 +27,4 @@ controller.type_text("Hello, World!")
 controller.screenshot("scr.png")
 
 # Set up streaming
-controller.scrcpy_path = scrcpy
 controller.stream()
