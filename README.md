@@ -1,8 +1,4 @@
-Here's an updated README that reflects the recent changes to the `Controller` class and the demo script:
-
----
-
-# Android Device Controller
+# PyDroidCTRL
 
 The **Android Device Controller** is a Python-based utility for controlling and interacting with Android devices via ADB. This project provides a convenient set of tools for automating tasks such as taking screenshots, simulating touch gestures, typing text, streaming the device's screen to your computer, and retrieving detailed device information.
 
@@ -27,7 +23,7 @@ The **Android Device Controller** is a Python-based utility for controlling and 
 1. **Clone the repository**:
 
     ```bash
-    git clone https://github.com/XoQ2988/android_controller.git
+    pip install PyDroidCTRL
     cd android_controller
     ```
 
