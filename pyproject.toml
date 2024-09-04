@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "android_control"
+version = "1.1.0"
+description = "Control android with python"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+  {name = "XoQ", email = "xoq2988@proton.me"}
+]
+keywords = ["python", "android", "adb"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: Microsoft"
+]
+requires-python = ">=3.7"
+
+[project.urls]
+Homepage = "https://github.com/XoQ2988/android_controller"
